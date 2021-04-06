@@ -72,7 +72,7 @@ public:
 
 	bool addMove(int playerType, int x, int y);
 
-	bool checkWinningStatus(int playerType); //backtracking branch
+	bool checkWinningStatus(int playerType);
 
 	bool isSameMarker(int playerType, int tRow, int tCol);
 
