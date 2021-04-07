@@ -262,7 +262,6 @@ stack* Board:: checkNeighbors(int playerType, int x, int y) {
 		}
 		cout << endl;
 	}
-
 	return neighbors;
 }
 
@@ -270,23 +269,41 @@ bool Board:: checkWinningStatus(int playerType) {
 	int winningPosition = 0;
 	int rowR = -1, colB = -1;
 	int coor;
-	int tRow, tCol;
+	int tempRow, tempCol;
 	int R = 1, B = -1;
 
 	if (playerType == -1) { // -1 is B
 		colB = boardSize - 1;
 		//look for B at Right-End
-		vector<int> rightBs;
+		stack* rightBs = new stack();
 		for (int i = 0; i < boardSize; i++) {
 			if (grid[i][colB] == B) {
 				coor = ((i + 1) * 10) + (colB + 1);
-				rightBs.push_back(coor);
+				rightBs->insertNode(coor);
 			}
 		}
 		cout << "All Right Bs: ";
-		for(int i = 0; i < rightBs.size(); i++) {
-			cout << rightBs[i] << "\t";
+		rightBs->showStack();
+		//backtracking
+		int tempCoor;
+		int tempNeighbor;
+		stack* tempStack = new stack();
+
+		while(!rightBs->isStackEmpty()) {
+			tempCoor = rightBs->pop();
+			tempRow = tempCoor / 10;
+			tempCol = tempCoor % 10;
+			tempStack = checkNeighbors(playerType, tempRow, tempCol);
+			// while(!tempStack->isStackEmpty()) {
+			// 	tempNeighbor = tempStack->pop();
+			// 	if (rightBs->isNew(tempNeighbor)) {
+			// 		rightBs->insertNode(tempNeighbor);
+			// 		cout << "\n" << tempNeighbor << endl;
+			// 	}
+			//
+			// }
 		}
+		delete rightBs;
 		cout << endl;
 
 
@@ -309,19 +326,19 @@ bool Board:: checkWinningStatus(int playerType) {
 	else {
 		rowR = boardSize - 1; // 1 is R
 		//look for R at bottom
-		vector<int> bottomRs;
+		stack* bottomRs = new stack();
 		for (int i = 0; i < boardSize; i++) {
 			if (grid[rowR][i] == R) {
 				coor = ((rowR + 1) * 10) + (i + 1);
-				bottomRs.push_back(coor);
+				bottomRs->insertNode(coor);
 			}
 		}
 		cout << "All bottom Rs: ";
-		for(int i = 0; i < bottomRs.size(); i++) {
-			cout << bottomRs[i] << "\t";
-		}
+		bottomRs->showStack();
 		cout << endl;
+		delete bottomRs;
 	}
+
 
 	return false;
 }

@@ -23,6 +23,7 @@
    int pop();
    void showStack();
    int size();
+   bool isNew(int num);
  };
 
  bool stack:: isStackEmpty() {
@@ -72,6 +73,16 @@
      current = current->next;
    }
    return counter;
+ }
+
+ bool stack:: isNew(int num) {
+   Node* current;
+   current = Top;
+   while (current != NULL) {
+     if (current->coor == num) return false;
+     current = current->next;
+   }
+   return true;
  }
 
 #endif
