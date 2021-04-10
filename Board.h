@@ -208,10 +208,10 @@ stack* Board:: checkNeighbors(int playerType, int x, int y) {
 			neighbors->insertNode(coor);
 		}
 		//up_left
-		if ( ((centerCol - 1) >= 0) && isSameMarker(player, centerRow - 1, centerCol - 1) ) {
-			coor = ( (centerRow ) * 10) + (centerCol );
-			neighbors->insertNode(coor);
-		}
+		// if ( ((centerCol - 1) >= 0) && isSameMarker(player, centerRow - 1, centerCol - 1) ) {
+		// 	coor = ( (centerRow ) * 10) + (centerCol );
+		// 	neighbors->insertNode(coor);
+		// }
 		//up_right
 		if ( ((centerCol + 1) < col) && isSameMarker(player, centerRow - 1, centerCol + 1) ) {
 			coor = ( (centerRow ) * 10) + (centerCol + 1 +1);
@@ -231,10 +231,10 @@ stack* Board:: checkNeighbors(int playerType, int x, int y) {
 			neighbors->insertNode(coor);
 		}
 		//down_right
-		if ( ((centerCol + 1) < col) && isSameMarker(player, centerRow + 1, centerCol + 1) )  {
-			coor = ( (centerRow + 1 +1) * 10) + (centerCol + 1 +1);
-			neighbors->insertNode(coor);
-		}
+		// if ( ((centerCol + 1) < col) && isSameMarker(player, centerRow + 1, centerCol + 1) )  {
+		// 	coor = ( (centerRow + 1 +1) * 10) + (centerCol + 1 +1);
+		// 	neighbors->insertNode(coor);
+		// }
 	}
 
 	//left
