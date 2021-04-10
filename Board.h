@@ -72,11 +72,13 @@ public:
 
 	bool addMove(int playerType, int x, int y);
 
-	bool checkWinningStatus(int playerType); //backtracking algo
+	int checkWinningStatus(int playerType); //backtracking algo
 
 	bool isSameMarker(int playerType, int tRow, int tCol);
 
 	stack* checkNeighbors(int playerType, int x, int y);
+
+	int backTrack(stack* toCheck, int playerType);
 
 	void printBoard();
 };
@@ -250,29 +252,30 @@ stack* Board:: checkNeighbors(int playerType, int x, int y) {
 	char playerChar;
 	if (playerType == -1) playerChar = 'B';
 	else playerChar = 'R';
-
-	if (neighbors->isStackEmpty()) cout << "No neighbors of [" << playerChar << "] " << "(" << x+1 << "," << y+1 << ") : " << endl;
+	stack* tempNeighbors = new stack();
+	if (neighbors->isEmpty()) cout << "No neighbors of [" << playerChar << "] " << "(" << x+1 << "," << y+1 << ") : " << endl;
 	else {
 		cout << "All neighbors of [" << playerChar << "] " << "(" << x+1 << "," << y+1 << ") : ";
-		while (!neighbors->isStackEmpty()) {
+		while (!neighbors->isEmpty()) {
 			coor = neighbors->pop();
+			tempNeighbors->insertNode(coor);
 			tCol = coor % 10;
 			tRow = coor / 10;
 			cout << "(" << tRow << ", " << tCol << ")  ";
 		}
 		cout << endl;
 	}
-	return neighbors;
+	return tempNeighbors;
 }
 
-bool Board:: checkWinningStatus(int playerType) {
-	int winningPosition = 0;
+int Board:: checkWinningStatus(int playerType) {
+	bool winningPlayer = 0;
 	int rowR = -1, colB = -1;
 	int coor;
-	int tempRow, tempCol;
+
 	int R = 1, B = -1;
 
-	if (playerType == -1) { // -1 is B
+	if (playerType == B) { // -1 is B
 		colB = boardSize - 1;
 		//look for B at Right-End
 		stack* rightBs = new stack();
@@ -284,27 +287,12 @@ bool Board:: checkWinningStatus(int playerType) {
 		}
 		cout << "All Right Bs: ";
 		rightBs->showStack();
-		//backtracking
-		int tempCoor;
-		int tempNeighbor;
-		stack* tempStack = new stack();
-
-		while(!rightBs->isStackEmpty()) {
-			tempCoor = rightBs->pop();
-			tempRow = tempCoor / 10;
-			tempCol = tempCoor % 10;
-			tempStack = checkNeighbors(playerType, tempRow, tempCol);
-			// while(!tempStack->isStackEmpty()) {
-			// 	tempNeighbor = tempStack->pop();
-			// 	if (rightBs->isNew(tempNeighbor)) {
-			// 		rightBs->insertNode(tempNeighbor);
-			// 		cout << "\n" << tempNeighbor << endl;
-			// 	}
-			//
-			// }
-		}
-		delete rightBs;
 		cout << endl;
+		//backtracking
+		//return 0;
+		return backTrack(rightBs, playerType);
+
+
 
 
 		// stack* currentNeighbors;
@@ -336,11 +324,90 @@ bool Board:: checkWinningStatus(int playerType) {
 		cout << "All bottom Rs: ";
 		bottomRs->showStack();
 		cout << endl;
-		delete bottomRs;
+		return backTrack(bottomRs, playerType);
 	}
 
 
 	return false;
+}
+
+int Board:: backTrack(stack* toCheck, int playerType) {
+	int winningPlayer = 0;
+	int tempRow, tempCol;
+	int coor;
+	if (playerType == -1) { // B (right to left)
+		int tempCoor;
+		int tempNeighbor;
+		stack* tempStack = new stack();
+		stack* trace = new stack();
+		while(!toCheck->isEmpty()) {
+					tempCoor = toCheck->pop();
+					trace->insertNode(tempCoor);
+					tempRow = tempCoor / 10;
+					tempCol = tempCoor % 10;
+					if (tempCol == 1) {
+						trace->insertNode(tempCoor);
+						trace->showStack();
+						winningPlayer = -1;
+						break;
+					}
+					tempStack = checkNeighbors(playerType, tempRow -1 , tempCol -1);
+					while(!tempStack->isEmpty()) {
+						tempNeighbor = tempStack->pop();
+						if (toCheck->isNew(tempNeighbor) && trace->isNew(tempNeighbor)) {
+							toCheck->insertNode(tempNeighbor);
+						}
+					}
+
+					// cout << "toCheck: ";
+					// toCheck->showStack();
+					//
+					// cout << "trace: ";
+					// trace->showStack();
+					// cout << endl;
+		}
+		delete tempStack;
+		delete trace;
+		return winningPlayer;
+	}
+
+	if (playerType == 1) {  // R (bottom to top)
+		int tempCoor;
+		int tempNeighbor;
+		stack* tempStack = new stack();
+		stack* trace = new stack();
+		while(!toCheck->isEmpty()) {
+					tempCoor = toCheck->pop();
+					trace->insertNode(tempCoor);
+					tempRow = tempCoor / 10;
+					tempCol = tempCoor % 10;
+					if (tempRow == 1) {
+						trace->insertNode(tempCoor);
+						trace->showStack();
+						winningPlayer = 1;
+						break;
+					}
+					tempStack = checkNeighbors(playerType, tempRow -1 , tempCol -1);
+					while(!tempStack->isEmpty()) {
+						tempNeighbor = tempStack->pop();
+						if (toCheck->isNew(tempNeighbor) && trace->isNew(tempNeighbor)) {
+							toCheck->insertNode(tempNeighbor);
+						}
+					}
+
+					// cout << "toCheck: ";
+					// toCheck->showStack();
+					//
+					// cout << "trace: ";
+					// trace->showStack();
+					// cout << endl;
+		}
+		delete tempStack;
+		delete trace;
+		return winningPlayer;
+	}
+
+return winningPlayer;
 }
 
 #endif /* BOARD_H_ */

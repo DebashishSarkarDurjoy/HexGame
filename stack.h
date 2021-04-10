@@ -18,27 +18,36 @@
      delete Top;
    }
 
-   bool isStackEmpty();
-   void insertNode(int value);
+   int getTop();
+   bool isEmpty();
+   bool insertNode(int value);
    int pop();
    void showStack();
    int size();
    bool isNew(int num);
  };
 
- bool stack:: isStackEmpty() {
+ int stack:: getTop() {
+   return Top->coor;
+ }
+
+ bool stack:: isEmpty() {
    if (Top == NULL) {
      return true;
    }
    else return false;
  }
 
- void stack:: insertNode(int value) {
-   Node* newNode = new Node();
-   newNode->coor = value;
-   newNode->next = Top;
+ bool stack:: insertNode(int value) {
+   if (this->isNew(value)) {
+     Node* newNode = new Node();
+     newNode->coor = value;
+     newNode->next = Top;
 
-   Top = newNode;
+     Top = newNode;
+     return 1;
+   }
+   else return 0;
  }
 
  int stack:: pop() {
@@ -52,7 +61,7 @@
  }
 
  void stack:: showStack() {
-   if (isStackEmpty()) cout << "\nCan not show empty stack!\n";
+   if (isEmpty()) cout << "\nCan not show empty stack!\n";
    else {
      Node* current = Top;
      cout << "Top ";
@@ -60,6 +69,7 @@
        cout << " -> " << current->coor;
        current = current->next;
      }
+     cout << endl;
    }
 
  }
