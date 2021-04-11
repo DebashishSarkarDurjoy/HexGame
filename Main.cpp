@@ -8,14 +8,17 @@
 #include<iostream>
 #include<string>
 #include <vector>
+#include <queue>
 
 using namespace std;
 
+#include "SmartNode.h"
 #include "stack.h"
 #include "Board.h"
 #include "Player.h"
 #include "HumanPlayer.h"
 #include "RandomPlayer.h"
+#include "SmartPlayer.h"
 #include "HexGame.h"
 
 
@@ -30,7 +33,7 @@ int main() {
 
 	Player *p1 = new HumanPlayer(1, "Human (Red)");
 	//Player *p2 = new HumanPlayer(-1, "Human (Blue)");
-	Player *p2 = new RandomPlayer(-1, "Random (Blue)");
+	Player *p2 = new SmartPlayer(-1, "Smart (Blue)");
 
 	HexGame game(board, p1, p2);
 	game.play();

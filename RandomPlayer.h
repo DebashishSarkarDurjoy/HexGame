@@ -1,7 +1,6 @@
 #ifndef RANDOMPLAYER_H_
 #define RANDOMPLAYER_H_
 
-using namespace std;
 
 class RandomPlayer: public Player {
 public:
@@ -22,13 +21,6 @@ bool RandomPlayer:: getMove(Board *board, int &x, int &y) {
 				}
 			}
 		}
-		// show available cells
-		// for (int i = 0; i < emptyCells.size(); i++) {
-		// 	cout << emptyCells[i] << "  ";
-		// }
-		// cout << endl;
-		//
-		// cout << "hot here";
 
 		int randCoorIndex = rand() % emptyCells.size();
 		int randCoor;
@@ -37,15 +29,10 @@ bool RandomPlayer:: getMove(Board *board, int &x, int &y) {
 
 		emptyCells.erase(emptyCells.begin() + randCoorIndex);
 
-		// for (int i = 0; i < emptyCells.size(); i++) {
-		// 	cout << emptyCells[i] << "  ";
-		// }
-		// cout << endl;
 
-		// cout << randCoor << endl;
 		randCol = randCoor % 10;
 		randRow = randCoor / 10;
-		// cout << randRow << " " << randCol << endl;
+	
 
 		x = randRow - 1;
 		y = randCol - 1;
