@@ -12,10 +12,11 @@
 
 using namespace std;
 
-#include "SmartNode.h"
+
 #include "stack.h"
 #include "Board.h"
 #include "Player.h"
+#include "SmartQ.h"
 #include "HumanPlayer.h"
 #include "RandomPlayer.h"
 #include "SmartPlayer.h"
