@@ -9,6 +9,7 @@
 #include<string>
 #include <vector>
 #include <queue>
+#include <time.h>
 
 using namespace std;
 
@@ -23,6 +24,7 @@ using namespace std;
 
 
 int main() {
+	srand(time(0));
 	int boardSize = 5;
 	cout <<"Input the size of board:" << endl;
     cin >> boardSize;
@@ -31,7 +33,7 @@ int main() {
 
 	Board *board = new Board(boardSize);
 
-	Player *p1 = new HumanPlayer(1, "Human (Red)");
+	Player *p1 = new RandomPlayer(1, "Human (Red)");
 	//Player *p2 = new HumanPlayer(-1, "Human (Blue)");
 	Player *p2 = new SmartPlayer(-1, "Smart (Blue)");
 
