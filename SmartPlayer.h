@@ -32,6 +32,7 @@ bool SmartPlayer:: getMove(Board* board, int& x, int& y) {
         x = i;
         y = boardSize -1;
         track->insertNode((i+1)*10 + (y+1));
+        track->showStack();
         return true;
       }
       i++;
@@ -42,29 +43,39 @@ bool SmartPlayer:: getMove(Board* board, int& x, int& y) {
     int coor = track->getTop();
     int tempRow = (coor / 10) -1;
     int tempCol = (coor % 10) -1;
+    track->showStack();
 
-    if (board->getGrid(tempRow, tempCol-1) == 0 && board->validInput(tempRow, tempCol-1)) {
+    if (tempRow < 0 || tempCol < 0 || tempRow > boardSize || tempCol > boardSize) {
+      track->pop();
+      continue;
+    }
+
+    if (board->validInput(tempRow, tempCol-1) && board->getGrid(tempRow, tempCol-1) == 0) {
       x = tempRow;
       y = tempCol-1;
       track->insertNode((x+1)*10 + (y+1));
+      track->showStack();
       return true;
     }
-    if (board->getGrid(tempRow+1, tempCol-1) == 0 && board->validInput(tempRow+1, tempCol-1)) {
+    if (board->validInput(tempRow+1, tempCol-1) && board->getGrid(tempRow+1, tempCol-1) == 0) {
       x = tempRow+1;
       y = tempCol-1;
       track->insertNode((x+1)*10 + (y+1));
+      track->showStack();
       return true;
     }
-    if (board->getGrid(tempRow-1, tempCol) == 0 && board->validInput(tempRow-1, tempCol)) {
+    if (board->validInput(tempRow-1, tempCol) && board->getGrid(tempRow-1, tempCol) == 0) {
       x = tempRow-1;
       y = tempCol;
       track->insertNode((x+1)*10 + (y+1));
+      track->showStack();
       return true;
     }
-    if (board->getGrid(tempRow+1, tempCol) == 0 && board->validInput(tempRow+1, tempCol)) {
+    if (board->validInput(tempRow+1, tempCol) && board->getGrid(tempRow+1, tempCol) == 0) {
       x = tempRow+1;
       y = tempCol-1;
       track->insertNode((x+1)*10 + (y+1));
+      track->showStack();
       return true;
     }
     track->pop();
