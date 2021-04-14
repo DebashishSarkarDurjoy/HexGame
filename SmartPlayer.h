@@ -3,11 +3,11 @@
 
 class SmartPlayer: public Player {
 private:
-  SmartQ* traceQ;
+  stack* track = new stack();
 
 public:
   SmartPlayer(int type, string name="Smart"): Player(type, name) {
-    traceQ = new SmartQ();
+
   };
 
   bool getMove(Board*, int&, int&);
@@ -24,47 +24,52 @@ public:
 // }
 
 bool SmartPlayer:: getMove(Board* board, int& x, int& y) {
-    int maxCol = board->getBoardSize();
-    cout << traceQ->getSize();
-    if (traceQ->getSize() == 0) {
+  int boardSize = board->getBoardSize();
+  if (track->isEmpty()) {
+    int i = 0;
+    while(track->isEmpty() && i < boardSize) {
+      if (board->getGrid(i, boardSize-1) == 0) {
+        x = i;
+        y = boardSize -1;
+        track->insertNode((i+1)*10 + (y+1));
+        return true;
+      }
+      i++;
+    }
+  }
 
-      for (int i = maxCol-1; i >= 0; i++) {
-        if (board->getGrid() == 0 && board->validInput()) {
-          
-          traceQ->push();
-          traceQ->show();
-          return true;
-        }
-      }
+  while(!track->isEmpty()) {
+    int coor = track->getTop();
+    int tempRow = (coor / 10) -1;
+    int tempCol = (coor % 10) -1;
+
+    if (board->getGrid(tempRow, tempCol-1) == 0 && board->validInput(tempRow, tempCol-1)) {
+      x = tempRow;
+      y = tempCol-1;
+      track->insertNode((x+1)*10 + (y+1));
+      return true;
     }
-    else {
-      cout << "hot here" ;
-      int coor = traceQ->getCurrentCoor();
-      int tempR, tempC;
-      tempR = (coor / 10) -1;
-      tempC = (coor % 10) -1;
-      if (board->validInput(tempR, maxCol-1) && board->getGrid(tempR, maxCol-1) == 0 ) {
-        x = tempR;
-        y = maxCol-1;
-        traceQ->push(x, y, board);
-        traceQ->show();
-        return true;
-      }
-      if (board->validInput(tempR+1, maxCol-1) && board->getGrid(tempR+1, maxCol-1) == 0) {
-        x = tempR+1;
-        y = maxCol-1;
-        traceQ->push(x, y, board);
-        traceQ->show();
-        return true;
-      }
-      if (board->validInput(tempR+1, maxCol) && board->getGrid(tempR+1, maxCol) == 0) {
-        x = tempR;
-        y = maxCol-1;
-        traceQ->push(x, y, board);
-        traceQ->show();
-        return true;
-      }
+    if (board->getGrid(tempRow+1, tempCol-1) == 0 && board->validInput(tempRow+1, tempCol-1)) {
+      x = tempRow+1;
+      y = tempCol-1;
+      track->insertNode((x+1)*10 + (y+1));
+      return true;
     }
+    if (board->getGrid(tempRow-1, tempCol) == 0 && board->validInput(tempRow-1, tempCol)) {
+      x = tempRow-1;
+      y = tempCol;
+      track->insertNode((x+1)*10 + (y+1));
+      return true;
+    }
+    if (board->getGrid(tempRow+1, tempCol) == 0 && board->validInput(tempRow+1, tempCol)) {
+      x = tempRow+1;
+      y = tempCol-1;
+      track->insertNode((x+1)*10 + (y+1));
+      return true;
+    }
+    track->pop();
+  }
+
   return false;
 }
 
