@@ -76,7 +76,6 @@ bool SmartPlayer:: getMove(Board* board, int& x, int& y) {
     if (board->validInput(tempRow+1, tempCol) && board->getGrid(tempRow+1, tempCol) == 0) {
       x = tempRow+1;
       y = tempCol;
-      cout << "i am here" << x << " "<< y ;
       track->insertNode((x+1)*10 + (y+1));
       track->showStack();
       return true;
