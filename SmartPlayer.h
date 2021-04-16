@@ -1,6 +1,6 @@
 #ifndef SMARTPLAYER_H_
 #define SMARTPLAYER_H_
-
+//SmartPlayer(-1, "Smart (Blue)");
 class SmartPlayer: public Player {
 private:
   stack* track = new stack();

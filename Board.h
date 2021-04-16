@@ -14,7 +14,9 @@ private:
 	int turn;
 	int **grid;
 	int moves;
+
 public:
+	vector<int> emptyCells;
 	Board(int bs) {
 		boardSize = bs;
 		grid = new int*[boardSize];
@@ -24,6 +26,7 @@ public:
 		for (int i = 0; i < boardSize; i++)
 			for (int j = 0; j < boardSize; j++) {
 				grid[i][j] = 0;
+				emptyCells.push_back(((i + 1) * 10) + (j + 1));
 			}
 		turn = 1;
 		moves = 0;
@@ -132,6 +135,14 @@ bool Board::addMove(int playerType, int x, int y) {
 	}
 
 	grid[x][y] = playerType;
+
+	for (int index = 0; index < emptyCells.size(); index++) {
+		if (emptyCells[index] == ( (x+1)*10 + (y+1) ) ) {
+			emptyCells.erase(emptyCells.begin() + index);
+			break;
+		}
+	}
+
 	moves++;
 	turn = -1 * turn;
 	return true;

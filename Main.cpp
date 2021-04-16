@@ -22,7 +22,12 @@ using namespace std;
 #include "SmartPlayer.h"
 #include "HexGame.h"
 
-
+//SmartPlayer only -1 (Blue)
+//HumanPlayer always 1 and -1
+//RandomPlayer always -1 and 1
+/*
+		SmartPlayer always
+*/
 int main() {
 	srand(time(0));
 	int boardSize = 5;
@@ -35,7 +40,7 @@ int main() {
 
 	Player *p1 = new RandomPlayer(1, "Human (Red)");
 	//Player *p2 = new HumanPlayer(-1, "Human (Blue)");
-	Player *p2 = new SmartPlayer(-1, "Smart (Blue)");
+	Player *p2 = new HumanPlayer(-1, "Smart (Blue)");
 
 	HexGame game(board, p1, p2);
 	game.play();
