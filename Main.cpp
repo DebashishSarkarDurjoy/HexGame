@@ -28,8 +28,49 @@ using namespace std;
 /*
 		SmartPlayer always
 */
+
+int displayMenu() {
+	int userInput;
+	cout << "\n" << "Please choose a following: " << endl;
+	cout << "1. Human vs Random." << endl;
+	cout << "2. Random vs Random." << endl;
+	cout << "3. Human vs Smart." << endl;
+	cout << "4. Random vs Smart." << endl;
+	cout << ">>>>";
+	cin >> userInput;
+	return userInput;
+}
+
 int main() {
 	srand(time(0));
+
+	int input = displayMenu();
+
+	Player *p1;
+	Player *p2;
+
+	switch (input) {
+		case 1:
+			p1 = new HumanPlayer(1, "Human (Red)");
+			p2 = new RandomPlayer(-1, "Random (Blue)");
+			break;
+
+		case 2:
+			p1 = new RandomPlayer(1, "Random (Red)");
+			p2 = new RandomPlayer(-1, "Random (Blue)");
+			break;
+
+		case 3:
+			p1 = new HumanPlayer(1, "Human (Red)");
+			p2 = new SmartPlayer(-1, "Smart (Blue)");
+			break;
+
+		case 4:
+			p1 = new RandomPlayer(1, "Random (Red)");
+			p2 = new SmartPlayer(-1, "Smart (Blue)");
+			break;
+	}
+
 	int boardSize = 5;
 	cout <<"Input the size of board:" << endl;
     cin >> boardSize;
@@ -37,10 +78,6 @@ int main() {
 		boardSize = 3;
 
 	Board *board = new Board(boardSize);
-
-	Player *p1 = new RandomPlayer(1, "Human (Red)");
-	//Player *p2 = new HumanPlayer(-1, "Human (Blue)");
-	Player *p2 = new HumanPlayer(-1, "Smart (Blue)");
 
 	HexGame game(board, p1, p2);
 	game.play();
