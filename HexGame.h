@@ -47,9 +47,12 @@ void HexGame::play() {
 		board->checkNeighbors(playerType, x, y);
 
 		board->printBoard();
-		won = board->checkWinningStatus(playerType);
-        if(won == playerType)
-        	cout << player[playerIndex]->getPlayerName() << " player wins!" << endl;
+		if (board->getMoves() >= 2*board->getBoardSize() - 1) {
+			won = board->checkWinningStatus(playerType);
+			cout << "\nMove: " << board->getMoves() << endl;
+	        if(won == playerType)
+	        	cout << player[playerIndex]->getPlayerName() << " player wins!" << endl;
+		}
 
 	}
 }

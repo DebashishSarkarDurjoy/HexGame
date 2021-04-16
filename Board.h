@@ -13,6 +13,7 @@ private:
 	int boardSize;
 	int turn;
 	int **grid;
+	int moves;
 public:
 	Board(int bs) {
 		boardSize = bs;
@@ -25,6 +26,7 @@ public:
 				grid[i][j] = 0;
 			}
 		turn = 1;
+		moves = 0;
 	}
 
 	virtual ~Board() {
@@ -64,6 +66,10 @@ public:
 
 	int getTurn() {
 		return turn;
+	}
+
+	int getMoves() {
+		return moves;
 	}
 
 	bool validInput(int, int);
@@ -126,7 +132,7 @@ bool Board::addMove(int playerType, int x, int y) {
 	}
 
 	grid[x][y] = playerType;
-
+	moves++;
 	turn = -1 * turn;
 	return true;
 }
